@@ -1,0 +1,3 @@
+[submodule "kasgai"]
+	path = kasgai
+	url = https://github.com/Kasgai/kasgai.git
