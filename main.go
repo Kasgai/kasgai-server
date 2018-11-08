@@ -11,11 +11,11 @@ import (
 )
 
 func main() {
-	Run()
+	run()
 	appengine.Main()
 }
 
-func Run() {
+func run() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
