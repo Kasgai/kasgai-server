@@ -9,11 +9,9 @@ import (
 	"time"
 
 	"cloud.google.com/go/storage"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/api/option"
 )
 
-func ImageUploader(file multipart.File, userID int) (string, error) {
+func ImageUploader(ctx context.Context, file multipart.File, userID int) (string, error) {
 	log.SetFlags(0)
 
 	var (
@@ -26,8 +24,6 @@ func ImageUploader(file multipart.File, userID int) (string, error) {
 	date := time.Now()
 	timestamp := date.Format("20060102150405")
 	name = fmt.Sprintf("%s-%d", timestamp, userID)
-
-	ctx := context.Background()
 
 	_, objAttrs, err := upload(ctx, file, projectID, bucket, name, isPublic)
 	if err != nil {
@@ -43,12 +39,7 @@ func objectURL(objAttrs *storage.ObjectAttrs) string {
 
 func upload(ctx context.Context, r io.Reader, projectID, bucket, name string, public bool) (*storage.ObjectHandle, *storage.ObjectAttrs, error) {
 
-	creds, err := google.FindDefaultCredentials(ctx, storage.ScopeReadOnly)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	client, err := storage.NewClient(ctx, option.WithCredentials(creds))
+	client, err := storage.NewClient(ctx)
 	if err != nil {
 		return nil, nil, err
 	}

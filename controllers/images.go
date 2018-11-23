@@ -7,6 +7,7 @@ import (
 
 	"github.com/Kasgai/kasgai-server/imageutils"
 	"github.com/Kasgai/kasgai-server/models"
+	"google.golang.org/appengine"
 )
 
 func PostImage(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,8 @@ func PostImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	url, err := imageutils.ImageUploader(file, userID)
+	context := appengine.NewContext(r)
+	url, err := imageutils.ImageUploader(context, file, userID)
 	if err != nil {
 		models.SendBadGateway(w)
 		fmt.Printf("%s", err)
