@@ -2,7 +2,11 @@ runtime: go
 api_version: go1.9
 
 handlers:
-  - url: /.*
-    script: _go_app
-    secure: always
-    redirect_http_response_code: 301
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /.*
+  script: _go_app
+  secure: always
+  redirect_http_response_code: 301
