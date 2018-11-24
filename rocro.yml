@@ -1,0 +1,10 @@
+inspecode:
+  thresholds:
+    num-issues:
+      critical: 0
+      error: 0
+  go-test: default
+  gofmt: auto-fix
+  goimports: auto-fix
+  golint: auto-fix
+  misspell: auto-fix
