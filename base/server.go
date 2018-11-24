@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Run makes api server and  web server
 func Run() {
 	r := mux.NewRouter()
 

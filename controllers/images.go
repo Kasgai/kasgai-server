@@ -10,6 +10,7 @@ import (
 	"google.golang.org/appengine"
 )
 
+// PostImage saves uploaded images in Cloud Storage
 func PostImage(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(600000)
 	if err != nil {

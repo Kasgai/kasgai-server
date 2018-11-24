@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// Response is keys of response json
 type Response struct {
 	Status      int    `json:"status"`
 	Message     string `json:"message"`
@@ -13,31 +14,7 @@ type Response struct {
 	writer      http.ResponseWriter
 }
 
-func (r *Response) Created() {
-	r.Status = http.StatusCreated
-	r.Message = "Created"
-}
-
-func (r *Response) BadRequest() {
-	r.Status = http.StatusBadRequest
-	r.Message = "Bad Request"
-}
-
-func (r *Response) NotFound() {
-	r.Status = http.StatusNotFound
-	r.Message = "Resource not found"
-}
-
-func (r *Response) UnprocessableEntity() {
-	r.Status = http.StatusUnprocessableEntity
-	r.Message = "Unprocessable Entity"
-}
-
-func (r *Response) BadGateway() {
-	r.Status = http.StatusBadGateway
-	r.Message = "Bad Gateway"
-}
-
+// Send returns response
 func (r *Response) Send() {
 	r.writer.Header().Set("Content-Type", r.contentType)
 	r.writer.WriteHeader(r.Status)
@@ -46,36 +23,39 @@ func (r *Response) Send() {
 	fmt.Fprintf(r.writer, string(output))
 }
 
+// CreateDefaultResponse define response format
 func CreateDefaultResponse(w http.ResponseWriter) Response {
 	return Response{Status: http.StatusOK, writer: w, contentType: "application/json"}
 }
 
+// SendCreated returns Created response
 func SendCreated(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
-	response.Created()
+	response.Status = http.StatusCreated
+	response.Message = "Created"
 	response.Send()
 }
 
+// SendBadRequest returns Bad Request response
 func SendBadRequest(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
-	response.BadRequest()
+	response.Status = http.StatusBadRequest
+	response.Message = "Bad Request"
 	response.Send()
 }
 
-func SendNotFound(w http.ResponseWriter) {
-	response := CreateDefaultResponse(w)
-	response.NotFound()
-	response.Send()
-}
-
+// SendUnprocessableEntity returns Unprocessable Entity response
 func SendUnprocessableEntity(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
-	response.UnprocessableEntity()
+	response.Status = http.StatusUnprocessableEntity
+	response.Message = "Unprocessable Entity"
 	response.Send()
 }
 
+// SendBadGateway returns Bad Gateway response
 func SendBadGateway(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
-	response.UnprocessableEntity()
+	response.Status = http.StatusBadGateway
+	response.Message = "Bad Gateway"
 	response.Send()
 }

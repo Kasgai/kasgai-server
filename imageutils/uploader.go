@@ -11,6 +11,7 @@ import (
 	"cloud.google.com/go/storage"
 )
 
+// ImageUploader is uploader of Cloud Storage
 func ImageUploader(ctx context.Context, file multipart.File, userID int) (string, error) {
 	log.SetFlags(0)
 
@@ -38,7 +39,6 @@ func objectURL(objAttrs *storage.ObjectAttrs) string {
 }
 
 func upload(ctx context.Context, r io.Reader, projectID, bucket, name string, public bool) (*storage.ObjectHandle, *storage.ObjectAttrs, error) {
-
 	client, err := storage.NewClient(ctx)
 	if err != nil {
 		return nil, nil, err
