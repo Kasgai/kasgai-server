@@ -13,6 +13,10 @@ import (
 func Run() {
 	r := mux.NewRouter()
 
+	// authorization
+	r.HandleFunc("/auth", controllers.Authorize).Methods("GET")
+	r.HandleFunc("/callback", controllers.Callback).Methods("GET")
+
 	// api server
 	r.HandleFunc("/api/upload", controllers.PostImage).Methods("POST")
 
