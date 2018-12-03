@@ -50,7 +50,8 @@ func StoringData(ctx context.Context, user User) {
 		log.Fatalf("Could not create datastore client: %v", err)
 	}
 
-	nameKey := datastore.IncompleteKey("User", nil)
+	// save user with id as key
+	nameKey := datastore.NameKey("User", user.ID, nil)
 
 	key, err := client.Put(ctx, nameKey, &user)
 	if err != nil {
@@ -78,7 +79,7 @@ func GetUserInfo(ctx context.Context, token *oauth2.Token) (UserInfo, error) {
 
 	configFile, _ := ioutil.ReadFile("client_secret.json")
 	config, _ := google.ConfigFromJSON(configFile)
-	client := config.Client(oauth2.NoContext, token)
+	client := config.Client(ctx, token)
 
 	response, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
