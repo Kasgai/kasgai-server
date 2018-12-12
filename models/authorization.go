@@ -29,9 +29,11 @@ type UserInfo struct {
 	Locale     string `json:"locale"`
 }
 
+const clientSecretJSON = "client_secret.json"
+
 // AuthCodeURL load authorization URL
 func AuthCodeURL() string {
-	configFile, _ := ioutil.ReadFile("client_secret.json")
+	configFile, _ := ioutil.ReadFile(clientSecretJSON)
 	config, _ := google.ConfigFromJSON(configFile)
 
 	config.Scopes = []string{
@@ -48,6 +50,7 @@ func StoringData(ctx context.Context, user User) {
 	client, err := datastore.NewClient(ctx, projectID)
 	if err != nil {
 		log.Fatalf("Could not create datastore client: %v", err)
+		return
 	}
 
 	// save user with id as key
@@ -63,21 +66,22 @@ func StoringData(ctx context.Context, user User) {
 }
 
 // GetOauth2Token get accesstoken form code
-func GetOauth2Token(ctx context.Context, code string) *oauth2.Token {
-	configFile, _ := ioutil.ReadFile("client_secret.json")
+func GetOauth2Token(ctx context.Context, code string) (*oauth2.Token, error) {
+	configFile, _ := ioutil.ReadFile(clientSecretJSON)
 	config, _ := google.ConfigFromJSON(configFile)
 	token, err := config.Exchange(ctx, code)
 	if err != nil {
 		log.Printf("Token exchange error: %v", err)
+		return nil, err
 	}
-	return token
+	return token, nil
 }
 
 // GetUserInfo to get userinfo form google api
 func GetUserInfo(ctx context.Context, token *oauth2.Token) (UserInfo, error) {
 	var usrInf UserInfo
 
-	configFile, _ := ioutil.ReadFile("client_secret.json")
+	configFile, _ := ioutil.ReadFile(clientSecretJSON)
 	config, _ := google.ConfigFromJSON(configFile)
 	client := config.Client(ctx, token)
 

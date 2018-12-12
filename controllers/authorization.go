@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/Kasgai/kasgai-server/models"
@@ -19,12 +18,16 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	context := appengine.NewContext(r)
 
-	oauth2Token := models.GetOauth2Token(context, code)
-	fmt.Println(oauth2Token.AccessToken)
+	oauth2Token, err := models.GetOauth2Token(context, code)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusInternalServerError)
+		return
+	}
 
 	userInfo, err := models.GetUserInfo(context, oauth2Token)
 	if err != nil {
-		http.Redirect(w, r, "/auth", http.StatusInternalServerError)
+		http.Redirect(w, r, "/", http.StatusInternalServerError)
+		return
 	}
 	user := models.User{
 		UserInfo:    userInfo,
