@@ -34,6 +34,10 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 		Oauth2Token: oauth2Token,
 	}
 
-	models.StoringData(context, user)
+	if _, err := models.StoringData(context, user); err != nil {
+		models.SendInternalServerError(w)
+		return
+	}
+
 	http.Redirect(w, r, "/", http.StatusFound)
 }

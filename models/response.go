@@ -28,6 +28,14 @@ func CreateDefaultResponse(w http.ResponseWriter) Response {
 	return Response{Status: http.StatusOK, writer: w, contentType: "application/json"}
 }
 
+// SendOK returns OK response
+func SendOK(w http.ResponseWriter) {
+	response := CreateDefaultResponse(w)
+	response.Status = http.StatusOK
+	response.Message = "OK"
+	response.Send()
+}
+
 // SendCreated returns Created response
 func SendCreated(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
@@ -49,6 +57,14 @@ func SendUnprocessableEntity(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
 	response.Status = http.StatusUnprocessableEntity
 	response.Message = "Unprocessable Entity"
+	response.Send()
+}
+
+// SendInternalServerError returns Internal Server Error Response
+func SendInternalServerError(w http.ResponseWriter) {
+	response := CreateDefaultResponse(w)
+	response.Status = http.StatusInternalServerError
+	response.Message = "Internal Server Error"
 	response.Send()
 }
 

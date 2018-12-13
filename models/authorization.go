@@ -44,13 +44,13 @@ func AuthCodeURL() string {
 }
 
 // StoringData save user data to datastore
-func StoringData(ctx context.Context, user User) {
+func StoringData(ctx context.Context, user User) (*datastore.Key, error) {
 	projectID := "kasgai-com"
 
 	client, err := datastore.NewClient(ctx, projectID)
 	if err != nil {
 		log.Fatalf("Could not create datastore client: %v", err)
-		return
+		return nil, err
 	}
 
 	// save user with id as key
@@ -59,10 +59,11 @@ func StoringData(ctx context.Context, user User) {
 	key, err := client.Put(ctx, nameKey, &user)
 	if err != nil {
 		log.Printf("Faild to create user: %v", err)
-		return
+		return nil, err
 	}
 
 	fmt.Printf("Created new user with ID %d\n", key.ID)
+	return key, nil
 }
 
 // GetOauth2Token get accesstoken form code
