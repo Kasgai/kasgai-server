@@ -10,6 +10,7 @@ import (
 	"cloud.google.com/go/datastore"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
+	"google.golang.org/appengine"
 )
 
 // User data
@@ -45,7 +46,7 @@ func AuthCodeURL() string {
 
 // StoringData save user data to datastore
 func StoringData(ctx context.Context, user User) (*datastore.Key, error) {
-	projectID := "kasgai-com"
+	projectID := appengine.AppID(ctx)
 
 	client, err := datastore.NewClient(ctx, projectID)
 	if err != nil {
