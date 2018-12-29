@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"log"
 	"mime/multipart"
 	"time"
 
@@ -13,8 +12,6 @@ import (
 
 // ImageUploader is uploader of Cloud Storage
 func ImageUploader(ctx context.Context, file multipart.File, userID int) (string, error) {
-	log.SetFlags(0)
-
 	var (
 		projectID = "kasgai-com"
 		bucket    = "kasgai-com.appspot.com"
