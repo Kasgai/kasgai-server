@@ -22,9 +22,9 @@ func Run() {
 
 	// web server
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./kasgai/index.html")
+		http.ServeFile(w, r, "./shikkui/index.html")
 	})
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./kasgai/")))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./shikkui/")))
 
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stderr, r))
 }
