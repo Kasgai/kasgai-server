@@ -31,9 +31,9 @@ const makeWorkspace = (htmlToolbox) => {
       "website"
     ).src = `data:text/html;charset=utf-8,${encodeURIComponent(code)}`;
 
-    // const xml = Blockly.Xml.workspaceToDom(workspace);
-    // const xmlText = Blockly.Xml.domToText(xml);
-    // localStorage.setItem("blockly-html-code", xmlText);
+    const xml = Blockly.Xml.workspaceToDom(workspace);
+    const xmlText = Blockly.Xml.domToText(xml);
+    localStorage.setItem("blockly-html-code", xmlText);
   };
 
   workspace.addChangeListener(updateWorkspace);
