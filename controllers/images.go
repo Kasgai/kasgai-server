@@ -7,7 +7,6 @@ import (
 
 	"github.com/Kasgai/kasgai-server/imageutils"
 	"github.com/Kasgai/kasgai-server/models"
-	"google.golang.org/appengine"
 )
 
 // PostImage saves uploaded images in Cloud Storage
@@ -32,7 +31,7 @@ func PostImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	context := appengine.NewContext(r)
+	context := r.Context()
 	url, err := imageutils.ImageUploader(context, file, userID)
 	if err != nil {
 		models.SendBadGateway(w)

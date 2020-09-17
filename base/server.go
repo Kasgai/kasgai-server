@@ -1,6 +1,8 @@
 package base
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -27,6 +29,9 @@ func Run() {
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./shikkui/")))
 
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stderr, r))
+
+	fmt.Println("Running on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
 func useContext(handler http.Handler) http.Handler {

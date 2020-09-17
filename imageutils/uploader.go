@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"cloud.google.com/go/storage"
-	"google.golang.org/appengine"
 )
 
 // ImageUploader is uploader of Cloud Storage
@@ -17,8 +16,8 @@ func ImageUploader(ctx context.Context, file multipart.File, userID int) (string
 	log.SetFlags(0)
 
 	var (
-		projectID = appengine.AppID(ctx)
-		bucket    = appengine.DefaultVersionHostname(ctx)
+		projectID = "kasgai-com"
+		bucket    = "kasgai-com.appspot.com"
 		name      = ""
 		isPublic  = true
 	)

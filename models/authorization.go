@@ -3,14 +3,12 @@ package models
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 
 	"cloud.google.com/go/datastore"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"google.golang.org/appengine"
 )
 
 // User data
@@ -46,7 +44,7 @@ func AuthCodeURL() string {
 
 // StoringData save user data to datastore
 func StoringData(ctx context.Context, user User) (*datastore.Key, error) {
-	projectID := appengine.AppID(ctx)
+	projectID := "kasgai-com"
 
 	client, err := datastore.NewClient(ctx, projectID)
 	if err != nil {
@@ -63,7 +61,6 @@ func StoringData(ctx context.Context, user User) (*datastore.Key, error) {
 		return nil, err
 	}
 
-	fmt.Printf("Created new user with ID %d\n", key.ID)
 	return key, nil
 }
 

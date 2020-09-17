@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/Kasgai/kasgai-server/models"
-	"google.golang.org/appengine"
 )
 
 // Authorize this application
@@ -16,7 +15,7 @@ func Authorize(w http.ResponseWriter, r *http.Request) {
 // Callback from Authorize
 func Callback(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
-	context := appengine.NewContext(r)
+	context := r.Context()
 
 	oauth2Token, err := models.GetOauth2Token(context, code)
 	if err != nil {
