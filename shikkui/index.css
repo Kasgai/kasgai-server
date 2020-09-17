@@ -1,0 +1,48 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 50px 1fr 1fr;
+  grid-template-areas: "navigation navigation" "blocklyHtml	webcontent" "blocklyHtml   code";
+}
+
+.navigation {
+  grid-area: navigation;
+  display: flex;
+  align-items: center;
+}
+
+.blockly {
+  grid-area: blocklyHtml;
+}
+
+.preview {
+  grid-area: webcontent;
+  border: solid 1px #c6c6c6;
+}
+
+.sourceCode {
+  grid-area: code;
+  overflow-x: auto;
+}
+
+#title {
+  font-size: 2rem;
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #ddd;
+  height: 40px;
+}
+
+#website {
+  border: 0px;
+  width: 100%;
+  height: calc(100% - 40px);
+}
